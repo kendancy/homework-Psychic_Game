@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Psychic Game</title>
+	<!-- <script type="text/javascript" src="assets/javascript/game.js"></script> -->
+	<!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css"> -->
+	<!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css"> -->
+</head>
+<body>
+
+<!-- draw screen -->
+<div id="game">
+	<p>Computer says ... Guess what letter I am picturing?</p>
+</div>
+
+<!-- Main program area -->
+<script type="text/javascript">
+
+	<!-- setup storage for variables -->
+	var picks = "a";
+	var wins = 0;
+	var losses = 0;
+	var guessLeft = 9;
+	var yourGuesses = "";
+
+	document.onkeyup = function(event) {
+
+		// get the guess from the user
+		var userGuess = event.key;
+
+		// Filter out non alpha letter character input
+		if ((userGuess.toUpperCase() >= "A") && (userGuess.toUpperCase() <= "Z") && userGuess.length == 1) {
+		// calculate the computers' answer
+		// make the answer an A - Z
+			var computerGuess = Math.floor(Math.random()*(90-65+1))+65;
+			var guessChr = String.fromCharCode(computerGuess);
+
+			// update game tracking
+			yourGuesses += userGuess.toUpperCase();
+			if ( guessLeft > 0 ) {
+				yourGuesses += ", "
+			}
+			guessLeft--;
+
+			// score the answer
+			if (userGuess.toUpperCase() === guessChr) {
+				wins++;
+				guessLeft = 9;
+				yourGuesses = "";
+			}	else if ( guessLeft <1 ) {
+				losses++;
+				guessLeft = 9;
+				yourGuesses = "";
+			}
+
+			var html = "<h1>The Psychic Game</h1>" +
+			"<p>Guess What letter I'm thinking of </p>" +
+			"<br>" +
+			"<p>Wins: " + wins + "</p>" +
+			"<p>Losses: " + losses + "</p>" +
+			"<p>Guesses Left: " + guessLeft +  "</p>" +
+			"<p>Your guesses so far: " + yourGuesses + "</p>"
+
+			document.querySelector("#game").innerHTML = html;
+
+		}
+	};
+
+	</script>		
+	</body>
+</html>
